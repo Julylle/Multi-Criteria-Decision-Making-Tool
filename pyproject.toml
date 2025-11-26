@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "decision_making_n2o"
+version = "1.0.0"
+description = "Multi-criteria decision-Making tool package"
+readme = "README.md"
+requires-python = ">=3.9"
+
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "ast",
+    "math"
+]
+
+[tool.setuptools]
+packages = ["decision_making_n2o"]
