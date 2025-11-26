@@ -61,7 +61,7 @@ class Quotes:
         )
     
 
-    def _gui_input(prompt):
+    def _gui_input(self.prompt):
         def submit():
             nonlocal user_input
             user_input = entry.get()
