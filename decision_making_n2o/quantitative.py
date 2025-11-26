@@ -1,3 +1,5 @@
+import math
+
 class Quotes:
     def __init__(self):
         # Liquid-based system
@@ -81,9 +83,9 @@ class Quotes:
         self.duration = self._ask_user_option("Please enter the planned monitoring duration in the unit of months:")
         self.nLocation = self._ask_user_option("Please enter the planned number of monitoring locations:")
 
-        import math
+
         # Determine monitoring scenario (1-12)
-        self.scenario = min(math.log2(np.ceil(self.duration/6)), 3) *3 + min(np.ceil(self.nLocation / 2), 3)
+        self.scenario = min(math.log2(math.ceil(self.duration/6)), 3) *3 + min(math.ceil(self.nLocation / 2), 3)
         
         # Criteria weights
         
@@ -189,15 +191,15 @@ class Quotes:
         
 
         self.N_probeSet = self.nLocation
-        self.N_controllerSet = np.ceil(self.nLocation / 2)
-        self.N_probeHeads = self.nLocation * (np.floor(self.duration / 6)-1)
-        self.N_liqCalibrationKits = self.nLocation * np.floor(self.duration / 2)
+        self.N_controllerSet = math.ceil(self.nLocation / 2)
+        self.N_probeHeads = self.nLocation * (math.floor(self.duration / 6)-1)
+        self.N_liqCalibrationKits = self.nLocation * math.floor(self.duration / 2)
         self.liquid_EquipmentCost = self.N_probeSet * self.probe_set_sum() + self.N_controllerSet * self.controller_set_sum()
         self.liquid_ConsumablesCost = self.N_probeHeads * self.liquid_items["Sensor head"] + self.N_liqCalibrationKits * self.liquid_items["Probe calibration kit for calibration"]
 
         self.N_hoodSets = self.nLocation
         self.N_analyserSets = 1
-        self.N_gasCalibrationKits = np.floor(self.duration/3)
+        self.N_gasCalibrationKits = math.floor(self.duration/3)
         self.gas_EquipmentCost = self.N_hoodSets * self.hood_set_sum() + self.N_analyserSets * self.analyser_set_sum()
         self.gas_ConsumablesCost = self.N_gasCalibrationKits * self.gas_items["Gas system service consumables for calibration"]
         

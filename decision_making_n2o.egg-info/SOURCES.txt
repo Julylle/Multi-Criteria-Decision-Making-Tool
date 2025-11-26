@@ -1,8 +1,9 @@
 README.md
 pyproject.toml
-decision_making_n2o/QualitativeScores.py
-decision_making_n2o/Quotes.py
 decision_making_n2o/__init__.py
+decision_making_n2o/main.py
+decision_making_n2o/qualitative.py
+decision_making_n2o/quantitative.py
 decision_making_n2o.egg-info/PKG-INFO
 decision_making_n2o.egg-info/SOURCES.txt
 decision_making_n2o.egg-info/dependency_links.txt
