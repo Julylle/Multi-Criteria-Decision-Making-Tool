@@ -1,6 +1,6 @@
 import math
 import tkinter as tk
-from tkinter import simpledialog
+from tkinter import ttk
 
 class Quotes:
     def __init__(self):
@@ -61,12 +61,39 @@ class Quotes:
         )
     
 
-    def _gui_input(self,prompt):
-        root = tk.Tk()
-        root.withdraw()   # hide main window
-        value = simpledialog.askstring("Input Required", prompt)
-        root.destroy()
-        return value
+    def _gui_input(prompt):
+        def submit():
+            nonlocal user_input
+            user_input = entry.get()
+            window.destroy()
+
+        window = tk.Tk()
+        window.title("Input Required")
+
+        # Fix window size
+        window.geometry("500x200")  # width x height
+        window.resizable(False, False)
+
+        # Multi-line prompt text
+        label = ttk.Label(
+            window,
+            text=prompt,
+            wraplength=480,       # wrap text to fit window
+            justify="left"
+        )
+        label.pack(pady=10)
+
+        # Input box
+        entry = ttk.Entry(window, width=50)
+        entry.pack(pady=5)
+
+        # Submit button
+        user_input = None
+        ttk.Button(window, text="OK", command=submit).pack(pady=10)
+
+        window.mainloop()
+        return user_input
+
 
     
     def _ask_user_for_input(self, content, label):
