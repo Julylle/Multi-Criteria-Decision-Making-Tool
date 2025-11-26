@@ -9,35 +9,33 @@ class QualitativeScores:
         while True:
             try:
                 user_input = self.costs._gui_input(
-                    f"\nEnter niche scores for the two methods in terms of {specific}. "
-                    "Please use the format [number1, number2], for example, [1, 1]. \n\n"
-                    "'number1' corresponds to the liquid-based method, and 'number2' corresponds to the gas-based method.\n\n"
-                    f"\n{elaboration}\n"
+                    f"Enter niche scores for the two methods in terms of {specific}.\n\n"
+                    f"The features listed below serve as the reference:\n"
+                    f"{elaboration} "
+                    f"Please use format: number1,number2.\n"
+                    "  (number1 → Liquid-based method; number2 → Gas-based method.)"
                 )
 
-                # Safely convert string input to a Python list
-                import ast
-                specific_niche_score = ast.literal_eval(user_input)
+                # Split on comma
+                parts = user_input.split(",")
+                if len(parts) != 2:
+                    raise ValueError
 
-                # Validate result
-                if (
-                    isinstance(specific_niche_score, list)
-                    and len(specific_niche_score) == 2
-                    and all(isinstance(x, (int, float)) for x in specific_niche_score)
-                ):
-                    break
-                else:
-                    print("Please enter exactly two numbers in the format [number1, number2].")
+                # Convert to numbers
+                liquid = float(parts[0].strip())
+                gas = float(parts[1].strip())
+
+                # SUCCESS — return values
+                return {
+                    "Liquid-based method": liquid,
+                    "Gas-based method": gas,
+                }
 
             except Exception:
-                print("Invalid input. Please try again using the correct format, e.g., [1, 2].")
-
-        criterion_specific = {
-            "Liquid-based method": specific_niche_score[0],
-            "Gas-based method": specific_niche_score[1],
-        }
-
-        return criterion_specific
+                # GUI error popup instead of terminal print
+                self.costs._gui_message(
+                    "Invalid input.\n\nPlease enter TWO numbers separated by a comma.\n\nExample: 1,2"
+                )
 
 
     def _get_default_niches_scores(self, specific):
@@ -129,47 +127,48 @@ class QualitativeScores:
 
         # criteria_specifics_scores = pd.DataFrame()
         self.scoringOption = self.costs._ask_user_option(
-        """The qualitative criteria (i.e., commissioning, maintenance, and complexity) are scored using the rules below:
+        "The qualitative criteria (i.e., commissioning, maintenance, and complexity) are scored using the rules below:\n\n" \
 
-        (1) For each criterion, the liquid-based method and gas-based method are compared across selected perspectives under the niche scenario (i.e, 6-month monitoring duration and 2 monitoring locations). The niche scores for each perspective are defined follow the rule that the superior method receives a score of 1 and the inferior method receives a score of 2.
-
-        (2) Secondly, multiplicative adjustments are applied to these basic scores to account for changes in monitoring duration or the number of monitoring locations. 
+        "(1) For each criterion, the liquid-based method and gas-based method are compared across selected perspectives under the niche " \
+        "scenario (i.e, 6-month monitoring duration and 2 monitoring locations). The niche scores for each perspective are defined follow " \
+        "the rule that the superior method receives a score of 1 and the inferior method receives a score of 2. \n" \
+        "(2) Secondly, multiplicative adjustments are applied to these basic scores to account for changes in monitoring duration or " \
+        "the number of monitoring locations. \n"
+        "(3) The final score for each qualitative criterion is then calculated by summing the specific scores of all perspectives under that criterion.\n\n"
         
-        (3) The final score for each qualitative criterion is then calculated by summing the specific scores of all perspectives under that criterion.
+        "To avoid over-complicating the calculation, this tool provides the flexibility to customise the niche scores.\n\n"
         
-        
-        To avoid over-complicating the calculation, this tool provides the flexibility to customise the niche scores.
-
-        ‣ Enter '0' to use the default niche scores, or enter '1' to customise your own."""
+        "‣ Please enter your choice: '0' (i.e., to use the default niche scores) or '1' (i.e., to customise your own niche scores)"
         )
 
 
         elaborations = {
-            "Monitoring device setup": "The liquid-based method uses the liquid probe and the gas-based method uses "
-                                        "floating hood as monitoring devices. \n\n"
-                                        "‣ Which one do you think is more difficult to deploy? (Please enter [number1, number2])",
-            "Auxiliary equipment": "The liquid-based method has only controller, while the gas-based has chimney, assembled gas "
+            "Monitoring device setup": "  • The liquid-based method uses the liquid probe.\n"
+                                        "  • The gas-based method uses floating hood as monitoring devices. \n\n"
+                                        "‣ Which one do you think is more difficult to deploy",
+            "Auxiliary equipment": "  • The liquid-based method has only controller. \n"
+                                    "  • The gas-based has chimney, assembled gas "
                                     "analyser, drying unit, sampling unit, switching device and numerical recorder, etc. \n\n"
-                                    "‣ Which one do you think is more difficult to set up? (Please enter [number1, number2])",
-            "Initial calibration": "The liquid-based method necessitates to conduct two-point calibration for each probe, while the "
-                                    "gas-based method requires standard gas calibration for a single analyser. \n\n"
-                                    "‣ Which one do you think is more difficult to calibration after commissioning? (Please enter [number1, number2])",
-            "Regular calibration": "The liquid probe needs conduct two-point calibration every two months, while the "
-                                    "gas analyser is equipped with auto daily calibration. \n\n"
-                                    "‣ Which one do you think is more difficult to conduct regular calibration during the whole monitoring periods? "
-                                    "(Please enter [number1, number2])",
-            "Extra service": "The liquid-based method requires cleaning and drift checking, while maintenance of the gas-based method includes: "
+                                    "‣ Which one do you think is more difficult to set up?",
+            "Initial calibration": "  • The liquid-based method necessitates to conduct two-point calibration for each probe. \n"
+                                    "  • The gas-based method requires standard gas calibration for a single analyser. \n\n"
+                                    "‣ Which one do you think is more difficult to calibration after commissioning?",
+            "Regular calibration": "  • The liquid probe needs conduct two-point calibration every two months. \n"
+                                    "  • The gas analyser is equipped with auto daily calibration. \n\n"
+                                    "‣ Which one do you think is more difficult to conduct regular calibration during the whole monitoring periods? ",
+            "Extra service": "  • The liquid-based method requires cleaning and drift checking. \n"
+                            "  • Maintenance of the gas-based method includes: "
                             "span and zero checks of the gas analyser; adjustment of NDIR optical components, inspection of critical components "
                             "of both the analyser and the sampling unit, replacement of sample filters and the mist catcher in the sampling unit, "
                             "regulator pressure checks and adjustments, replacement of sample pumps in the sampling unit, and verification of the "
                             "sampling unit's flow rate. \n\n"
-                            "‣ Which one do you think is more difficult to conduct extra services? (Please enter [number1, number2])", 
-            "Emission calculation": "The liquid-based method needs to calculate liquid to gas transfer nased on estimated kLa values, and the gas-based "
-                                    "method needs flux calculation with hoods switching. \n\n"
-                                    "‣ Which one do you think is more difficult to calculate? (Please enter [number1, number2])",
-            "Calibration of key parameters": "The liquid-based method requires extra cross validation to verify or correct kLa estimates, while the "
-                                            "gas-based method does not required to implement any calibration test. \n\n"
-                                            "‣ Which one do you think is more difficult to implement? (Please enter [number1, number2])",
+                            "‣ Which one do you think is more difficult to conduct extra services?", 
+            "Emission calculation": "  • The liquid-based method needs to calculate liquid to gas transfer nased on estimated kLa values. \n"
+                                    "  • The gas-based method needs flux calculation with hoods switching. \n\n"
+                                    "‣ Which one do you think is more difficult to calculate?",
+            "Calibration of key parameters": "  • The liquid-based method requires extra cross validation to verify or correct kLa estimates. \n"
+                                            "  • The gas-based method does not required to implement any calibration test. \n\n"
+                                            "‣ Which one do you think is more difficult to implement?",
         }
 
         for specific in all_criteria_specifics.keys():

@@ -60,48 +60,79 @@ class Quotes:
             + self.gas_items["Data logger system"]
         )
     
-
     def _gui_input(self, prompt):
-        def submit():
+        import tkinter as tk
+        from tkinter import ttk
+
+        def submit(event=None):
             nonlocal user_input
             user_input = entry.get()
             window.destroy()
 
-        window = tk.Tk()
+        # Create ONE hidden root if not created already
+        if not hasattr(self, "_root"):
+            self._root = tk.Tk()
+            self._root.withdraw()
+
+        # Create popup window
+        window = tk.Toplevel(self._root)
         window.title("Input Required")
 
-        # Create text label
-        label = ttk.Label(
-            window,
-            text=prompt,
-            wraplength=480,
-            justify="left"
-        )
+        # Ensure window appears and gets proper OS-level focus
+        window.deiconify()
+        window.lift()
+        window.attributes('-topmost', True)
+        window.after_idle(window.attributes, '-topmost', False)
+        window.focus_force()
+
+        # Multi-line prompt text
+        label = ttk.Label(window, text=prompt, wraplength=480, justify="left")
         label.pack(padx=10, pady=10)
 
+        # Input box
         entry = ttk.Entry(window, width=50)
         entry.pack(pady=5)
-        entry.focus()  # focus cursor automatically
-        
+
+        # Force cursor into the input box (reliably)
+        window.after(50, entry.focus_force)
+
         # OK button
         btn = ttk.Button(window, text="OK", command=submit)
         btn.pack(pady=10)
-        # ---- Allow Enter key to trigger submit ----
+
+        # Enter key submits
         window.bind("<Return>", submit)
 
-        # ----- KEY PART: flexible height -----
+        # Auto height
         window.update_idletasks()
-        required_h = window.winfo_reqheight()
-
-        # Set minimum size: fixed width, variable height
-        window.minsize(500, required_h)
-
-        # Optional: prevent horizontal resize but allow vertical if needed
+        window.minsize(500, window.winfo_reqheight())
         window.resizable(False, True)
 
+        # Modal behavior
+        window.grab_set()
         user_input = None
-        window.mainloop()
+        window.wait_window()
+
         return user_input
+
+
+
+    def _gui_message(self, text):
+        window = tk.Toplevel()
+        window.title("Message")
+
+        label = ttk.Label(window, text=text, wraplength=480, justify="left")
+        label.pack(padx=10, pady=10)
+
+        btn = ttk.Button(window, text="OK", command=window.destroy)
+        btn.pack(pady=10)
+
+        window.update_idletasks()
+        window.minsize(500, window.winfo_reqheight())
+        window.resizable(False, True)
+
+        window.grab_set()
+        window.wait_window()
 
     
     def _ask_user_for_input(self, content, label):
@@ -111,7 +142,7 @@ class Quotes:
                 value = float(self._gui_input(f"Enter {content} for '{label}'. "))
                 return value
             except ValueError:
-                print("Invalid number. Please enter a numeric value.")
+                self._gui_message("Invalid number. Please enter a numeric value.")
 
 
     def _ask_user_option(self, question):
@@ -121,7 +152,7 @@ class Quotes:
                 value = float(self._gui_input(f"{question}"))
                 return value
             except ValueError:
-                print("Invalid number. Please enter a numeric value.")
+                self._gui_message("Invalid number. Please enter a numeric value.")
 
 
     def init_from_user_input(self):
@@ -146,11 +177,10 @@ class Quotes:
         self.weightOption = self._ask_user_option(
             "Five criteria including equipment cost, consumables cost, commissioning, maintenance, and complexity" \
             "are considered in this evaluation. \n\n" \
-            "Default weights are provided. Enter '0' to use the default weights," \
-            "or enter '1' to define your own. \n\n" \
-            "You will be asked to enter the first four criteria, and the final criterion will be calculated as 1 minus " \
-            "the sum of the four entered weights." \
-            "Please ensure that the sum of the four entered weights does not exceed 1."
+            "Default weights are provided. Enter '0' to use the default weights, or enter '1' to define your own. \n\n" \
+            "If selecting '1' to customise your own weights, you will be asked to enter the first four criteria, "\
+            "and the final criterion will be calculated as 1 minus the sum of the four entered weights. \n\n" \
+            "‣ Please enter your choice: '0' (i.e., to use default weights) or '1' (i.e., to customise weights)"
         )
         
         if self.weightOption == 1:
@@ -163,10 +193,10 @@ class Quotes:
         self.priceOption = self._ask_user_option(
             "Among the five criteria, equipment cost and consumables cost are quantitative criteria that are strongly "
             "influenced by equipment prices. This tool provides default prices based on Australian suppliers. \n\n" \
-            "‣ Enter '0' to use these default prices, or enter '1' to input your own prices from local suppliers."
+            "‣ Please enter your choice: '0' (i.e., to use default prices) or '1' (i.e., to input your own prices from local suppliers)?"
         )
 
-        if self.weightOption == 1:
+        if self.priceOption == 1:
             for item in self.liquid_items.keys():
                 self.liquid_items[item] = self._ask_user_for_input("price",item)
             for item in self.gas_items.keys():
