@@ -70,37 +70,45 @@ class Quotes:
         window = tk.Tk()
         window.title("Input Required")
 
-        # Fix window size
-        window.geometry("500x200")  # width x height
-        window.resizable(False, False)
-
-        # Multi-line prompt text
+        # Create text label
         label = ttk.Label(
             window,
             text=prompt,
-            wraplength=480,       # wrap text to fit window
+            wraplength=480,
             justify="left"
         )
-        label.pack(pady=10)
+        label.pack(padx=10, pady=10)
 
-        # Input box
         entry = ttk.Entry(window, width=50)
         entry.pack(pady=5)
+        entry.focus()  # focus cursor automatically
+        
+        # OK button
+        btn = ttk.Button(window, text="OK", command=submit)
+        btn.pack(pady=10)
+        # ---- Allow Enter key to trigger submit ----
+        window.bind("<Return>", submit)
 
-        # Submit button
+        # ----- KEY PART: flexible height -----
+        window.update_idletasks()
+        required_h = window.winfo_reqheight()
+
+        # Set minimum size: fixed width, variable height
+        window.minsize(500, required_h)
+
+        # Optional: prevent horizontal resize but allow vertical if needed
+        window.resizable(False, True)
+
         user_input = None
-        ttk.Button(window, text="OK", command=submit).pack(pady=10)
-
         window.mainloop()
         return user_input
-
 
     
     def _ask_user_for_input(self, content, label):
         """Ask user for a single numeric input."""
         while True:
             try:
-                value = float(self._gui_input(f"Enter {content} for '{label}': "))
+                value = float(self._gui_input(f"Enter {content} for '{label}'. "))
                 return value
             except ValueError:
                 print("Invalid number. Please enter a numeric value.")
@@ -137,23 +145,25 @@ class Quotes:
 
         self.weightOption = self._ask_user_option(
             "Five criteria including equipment cost, consumables cost, commissioning, maintenance, and complexity" \
-            "are considered in this evaluation. Default weights are provided. Enter '0' to use the default weights," \
-            "or enter '1' to define your own. When entering custom weights, each value must be a decimal between 0 and 1. " \
+            "are considered in this evaluation. \n\n" \
+            "Default weights are provided. Enter '0' to use the default weights," \
+            "or enter '1' to define your own. \n\n" \
             "You will be asked to enter the first four criteria, and the final criterion will be calculated as 1 minus " \
-            "the sum of the four entered weights. Please ensure that the sum of the four entered weights does not exceed 1."
+            "the sum of the four entered weights." \
+            "Please ensure that the sum of the four entered weights does not exceed 1."
         )
         
         if self.weightOption == 1:
             for criterion in list(self.weights.keys())[:-1]:
-                self.weights[criterion] = self._ask_user_for_input("weight", criterion)
+                self.weights[criterion] = self._ask_user_for_input("weight", criterion+" (Please enter a decimal between 0 and 1.)")
             self.weights["Complexity"] = 1 - sum([self.weights[criterion] for criterion in list(self.weights.keys())[:-1]])
         else:
             pass
 
         self.priceOption = self._ask_user_option(
             "Among the five criteria, equipment cost and consumables cost are quantitative criteria that are strongly "
-            "influenced by equipment prices. This tool provides default prices based on Australian suppliers. Enter '0' "
-            "to use these default prices, or enter '1' to input your own prices from local suppliers."
+            "influenced by equipment prices. This tool provides default prices based on Australian suppliers. \n\n" \
+            "‣ Enter '0' to use these default prices, or enter '1' to input your own prices from local suppliers."
         )
 
         if self.weightOption == 1:
