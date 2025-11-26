@@ -8,7 +8,7 @@ class QualitativeScores:
     def _ask_user_niche_scores(self, specific, elaboration):
         while True:
             try:
-                user_input = input(
+                user_input = self.costs._gui_input(
                     f"\nEnter niche scores for the two methods in terms of {specific}. "
                     "Please use the format [number1, number2], for example, [1, 1]. "
                     "'number1' corresponds to the liquid-based method, and 'number2' corresponds to the gas-based method."

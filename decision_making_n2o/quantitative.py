@@ -1,4 +1,6 @@
 import math
+import tkinter as tk
+from tkinter import simpledialog
 
 class Quotes:
     def __init__(self):
@@ -58,11 +60,20 @@ class Quotes:
             + self.gas_items["Data logger system"]
         )
     
+
+    def _gui_input(self,prompt):
+        root = tk.Tk()
+        root.withdraw()   # hide main window
+        value = simpledialog.askstring("Input Required", prompt)
+        root.destroy()
+        return value
+
+    
     def _ask_user_for_input(self, content, label):
         """Ask user for a single numeric input."""
         while True:
             try:
-                value = float(input(f"Enter {content} for '{label}': "))
+                value = float(self._gui_input(f"Enter {content} for '{label}': "))
                 return value
             except ValueError:
                 print("Invalid number. Please enter a numeric value.")
@@ -72,7 +83,7 @@ class Quotes:
         """Ask user for a single numeric input."""
         while True:
             try:
-                value = float(input(f"{question}"))
+                value = float(self._gui_input(f"{question}"))
                 return value
             except ValueError:
                 print("Invalid number. Please enter a numeric value.")
