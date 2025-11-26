@@ -13,8 +13,6 @@ dependencies = [
     "pandas",
     "numpy",
     "matplotlib",
-    "ast",
-    "math"
 ]
 
 [tool.setuptools]
