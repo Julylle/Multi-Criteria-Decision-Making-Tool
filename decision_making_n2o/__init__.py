@@ -18,8 +18,8 @@ This package provides:
 __version__ = "1.0.0"
 
 # Public API exports
-from .quotes import Quotes
-from .qualitative_scores import QualitativeScores
+# from .quotes import Quotes
+# from .qualitative_scores import QualitativeScores
 
 __all__ = [
     "Quotes",

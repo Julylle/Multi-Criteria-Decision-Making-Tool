@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+decision_making_n2o/QualitativeScores.py
+decision_making_n2o/Quotes.py
+decision_making_n2o/__init__.py
+decision_making_n2o.egg-info/PKG-INFO
+decision_making_n2o.egg-info/SOURCES.txt
+decision_making_n2o.egg-info/dependency_links.txt
+decision_making_n2o.egg-info/requires.txt
+decision_making_n2o.egg-info/top_level.txt

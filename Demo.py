@@ -1,5 +1,5 @@
-from Quotes import Quotes
-from QualitativeScores import QualitativeScores
+from decision_making_n2o.quantitative import Quotes
+from decision_making_n2o.qualitative import QualitativeScores
 
 
 # Quantitative scores
