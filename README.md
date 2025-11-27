@@ -11,10 +11,10 @@ The proposed multi-criteria evaluation approach enables utilities to conduct a c
 ---
 
 ## ⚙️ Installation
-* Ensure you have Python 3.8+ and the following dependencies:
-pandas
-numpy
-matplotlib
+* Ensure you have Python 3.8+ and the following dependencies:  
+pandas  
+numpy  
+matplotlib  
  
 Firstly, clone this repository and install in editable (development) mode:
  ```bash
@@ -55,6 +55,7 @@ Shuting Wang
 School of Chemical Engineering,  
 The University of Queensland, Australia  
 📧 shuting.wang@uq.edu.au
+
 
 
 
