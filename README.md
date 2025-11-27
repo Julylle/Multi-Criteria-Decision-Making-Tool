@@ -18,8 +18,8 @@ matplotlib
  
 Firstly, clone this repository and install in editable (development) mode:
  ```bash
-git clone https://github.com/Julylle/Liquid-based-Nitrous-Oxide-Quantification.git
-cd Liquid-based-Nitrous-Oxide-Quantification
+git clone https://github.com/Julylle/Multi-Criteria-Decision-Making-Tool.git
+cd Multi-Criteria-Decision-Making-Tool
 # Install the package in editable mode
 python -m pip install -e .
 
@@ -55,6 +55,7 @@ Shuting Wang
 School of Chemical Engineering,  
 The University of Queensland, Australia  
 📧 shuting.wang@uq.edu.au
+
 
 
 
