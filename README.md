@@ -33,4 +33,27 @@ Then, just enter the required information in the jumped window. After filling al
 
 
 
+## 📜 License
+This project is licensed under the MIT License, see the LICENSE file for details.
+
+---
+
+## 👩‍🔬 Citation
+
+If you use this package in academic work, please cite as:
+Wang, S., Ye, L.. (2025). Chapter 8. Decision making based on practical considerations for project set up. The University of Queensland.
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome!
+For major changes, please open an issue to discuss your proposed ideas first.
+
+You may also contact the author directly using the information below:  
+
+Shuting Wang  
+School of Chemical Engineering,  
+The University of Queensland, Australia  
+📧 shuting.wang@uq.edu.au
+
 
