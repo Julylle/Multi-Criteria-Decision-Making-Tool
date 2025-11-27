@@ -24,7 +24,7 @@ cd Liquid-based-Nitrous-Oxide-Quantification
 python -m pip install -e .
 
 ```
-Secondly, directly run the ['demo.py'](https://github.com/Julylle/Liquid-based-Nitrous-Oxide-Quantification-/blob/main/demo.py) to activate the tool:
+Secondly, directly run the ['Demo.py'](https://github.com/Julylle/Multi-Criteria-Decision-Making-Tool/blob/main/demo.py) to activate the tool:
 ```bash
 python .\Demo.py
 ```
@@ -55,5 +55,6 @@ Shuting Wang
 School of Chemical Engineering,  
 The University of Queensland, Australia  
 📧 shuting.wang@uq.edu.au
+
 
 
