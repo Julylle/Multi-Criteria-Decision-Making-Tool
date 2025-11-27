@@ -29,7 +29,9 @@ Secondly, directly run the ['Demo.py'](https://github.com/Julylle/Multi-Criteria
 python .\Demo.py
 ```
 
-Then, just enter the required information in the jumped window. After filling all information, a summary report can be found in the final jumped window for instant check. Also, an output summary file can be found under the working directory for future refence and usage.
+Then, simply enter the required information in the pop-up window.  
+After completing all inputs, a summary report will appear in the final window for instant review.  
+An output summary file will also be saved in the working directory for future reference and use.
 
 
 
@@ -55,6 +57,7 @@ Shuting Wang
 School of Chemical Engineering,  
 The University of Queensland, Australia  
 📧 shuting.wang@uq.edu.au
+
 
 
 
