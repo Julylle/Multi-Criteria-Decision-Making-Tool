@@ -270,7 +270,7 @@ class Quotes:
 
         self.N_probeSet = self.nLocation
         self.N_controllerSet = math.ceil(self.nLocation / 2)
-        self.N_probeHeads = math.max(self.nLocation * (math.floor(self.duration / 6)-1),0)
+        self.N_probeHeads = max(self.nLocation * (math.floor(self.duration / 6)-1),0)
         self.N_liqCalibrationKits = self.nLocation * math.floor(self.duration / 2)
         self.liquid_EquipmentCost = self.N_probeSet * self.probe_set_sum() + self.N_controllerSet * self.controller_set_sum()
         self.liquid_ConsumablesCost = self.N_probeHeads * self.liquid_items["Sensor head"] + self.N_liqCalibrationKits * self.liquid_items["Probe calibration kit for calibration"]
