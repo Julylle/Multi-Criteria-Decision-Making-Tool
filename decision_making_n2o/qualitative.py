@@ -163,7 +163,7 @@ class QualitativeScores:
                             "regulator pressure checks and adjustments, replacement of sample pumps in the sampling unit, and verification of the "
                             "sampling unit's flow rate. \n\n"
                             "‣ Which one do you think is more difficult to conduct extra services?", 
-            "Emission calculation": "  • The liquid-based method needs to calculate liquid to gas transfer nased on estimated kLa values. \n"
+            "Emission calculation": "  • The liquid-based method needs to calculate liquid to gas transfer based on estimated kLa values. \n"
                                     "  • The gas-based method needs flux calculation with hoods switching. \n\n"
                                     "‣ Which one do you think is more difficult to calculate?",
             "Calibration of key parameters": "  • The liquid-based method requires extra cross validation to verify or correct kLa estimates. \n"
